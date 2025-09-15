@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Solar Forecast</title>
+    <meta name="description" content="3-day solar energy forecast based on your location">
+
+    <!-- Pico.css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.min.css"
+    >
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="container">
+      <hgroup>
+        <h1>Solar Forecast</h1>
+        <p>3-day solar energy forecast based on your location.</p>
+      </hgroup>
+      <nav>
+        <button onclick="getLocation()">Get Forecast</button>
+      </nav>
+
+    </header>
+    <!-- ./ Header -->
+
+    <!-- Main -->
+    <main class="container">
+      <!-- Preview -->
+      <section id="forecast">
+        <canvas id="forecast_chart" style="width:100%;max-width:700px">></canvas>
+      </section>
+      <section>
+        <h2>About</h1>
+        <p>
+          Weather data is from Open-Meteo.
+        </p>
+      </section>
+    </main>
+
+    <script src="location.js"></script>
+
+  </body>
+</html>
