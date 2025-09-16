@@ -53,6 +53,17 @@ function currentHourlyForecast(position) {
     const dates = data.hourly.time;
     const hours = dates.map(dt => new Date(dt).getHours());
     const radiationValues = data.hourly.shortwave_radiation;
+    const now = new Date();
+    const colors = [];
+
+    dates.forEach((d, index) => {
+      date = new Date(d);
+      if(date.getDate() === now.getDate() && date.getHours() === now.getHours()){
+        colors.push('#3B3035');
+      } else {
+        colors.push('#9BD0F5');
+      }
+    });
 
     console.log('Combined Data:', radiationValues); 
 
@@ -60,19 +71,21 @@ function currentHourlyForecast(position) {
       type: "bar",
       data: {
         datasets: [{
+          label: 'Forecast GHI (W/m2)',
           data: radiationValues,
-          backgroundColor: '#9BD0F5'
+          backgroundColor: colors
         }],
         labels:hours
       },
       options: {
-        legend: {display: false},
+        legend: {
+          display: true,
+        },
       }
     });
   })
   .catch(error => {
     console.error('Error fetching data:', error);
   });
-
-
 }
+
