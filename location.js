@@ -67,7 +67,7 @@ async function getMetEireannData(position) {
   const lon = position.coords.longitude;
 
   // Build the API URL (example with temperature and wind speed)
-  const url = `https://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat=${lat};long=${lon}`;
+  const url = `http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat=${lat};long=${lon}`;
 
   // Make the HTTP GET request
   const response = await fetch(url);
