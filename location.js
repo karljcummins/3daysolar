@@ -31,7 +31,6 @@ function showError(error) {
 
 async function displayForecast(position){
   const openMeteoData = await getOpenMeteoData(position);
-  const met_eireann_data = getMetEireannData(position);
 
   create_chart(openMeteoData);
 
@@ -61,49 +60,23 @@ async function getOpenMeteoData(position) {
 
 }
 
-
-async function getMetEireannData(position) {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
-
-  // Build the API URL (example with temperature and wind speed)
-  const url = `http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat=${lat};long=${lon}`;
-
-  // Make the HTTP GET request
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
-  const xml = await response.text(); // Parse response as XML
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xml, "application/xml");
-  const times = xmlDoc.getElementsByTagName("time");
-
-  console.log('MET response:', times); // Work with the JSON data
-  //const dates = data.hourly.time;
-  //const radiationValues = data.hourly.shortwave_radiation;
-
-  //console.log('Combined Data:', radiationValues); 
-  //const dataset = {x: dates, y:radiationValues};
-  //return dataset;
-
-}
-
 function create_chart(dataset1){
 
   const dates = dataset1.x;
   const radiationValues = dataset1.y;
 
   const now = new Date();
+  const hours = [];
   const colors = [];
 
   dates.forEach((d, index) => {
     date = new Date(d);
     if(date.getDate() === now.getDate() && date.getHours() === now.getHours()){
-      colors.push('#3B3035');
+      colors.push('#0096FF');
+      hours.push('now');
     } else {
       colors.push('#9BD0F5');
+      hours.push(date.getHours()); 
     }
   });
 
@@ -115,7 +88,7 @@ function create_chart(dataset1){
         data: radiationValues,
         backgroundColor: colors
       }],
-      labels:dates
+      labels:hours
     },
     options: {
       legend: {
