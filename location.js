@@ -30,17 +30,18 @@ function showError(error) {
 }
 
 async function displayForecast(position){
-  const openMeteoData = await getOpenMeteoData(position);
+  const threeDayData = await get3DayData(position);
+  const sevenDayData = await get7DayData(position);
 
-  create_chart(openMeteoData);
+  create_3day_chart(threeDayData);
+  create_7day_chart(sevenDayData);
 
 }
 
-async function getOpenMeteoData(position) {
+async function get3DayData(position) {
   const lat = position.coords.latitude;
   const lon = position.coords.longitude;
 
-  // Build the API URL (example with temperature and wind speed)
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=shortwave_radiation&forecast_days=3`;
 
   // Make the HTTP GET request
@@ -60,35 +61,83 @@ async function getOpenMeteoData(position) {
 
 }
 
-function create_chart(dataset1){
+async function get7DayData(position) {
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=shortwave_radiation_sum&timezone=Europe%2FLondon`;
+
+  // Make the HTTP GET request
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json(); // Parse response as JSON
+  console.log('API response:', data); // Work with the JSON data
+  const dates = data.daily.time;
+  const radiationValues = data.daily.shortwave_radiation_sum;
+
+  const converted_data = radiationValues.map(mj => +(mj * 0.27778).toFixed(2));
+
+  console.log('Combined Data:', converted_data); 
+  const dataset = {x: dates, y:converted_data};
+  return dataset;
+
+}
+
+function create_3day_chart(dataset1){
 
   const dates = dataset1.x;
   const radiationValues = dataset1.y;
 
   const now = new Date();
   const hours = [];
-  const colors = [];
 
   dates.forEach((d, index) => {
     date = new Date(d);
     if(date.getDate() === now.getDate() && date.getHours() === now.getHours()){
-      colors.push('#0096FF');
       hours.push('now');
     } else {
-      colors.push('#9BD0F5');
       hours.push(date.getHours()); 
     }
   });
 
-  new Chart("forecast_chart", {
+  new Chart("three_day_chart", {
     type: "bar",
     data: {
       datasets: [{
         label: 'Forecast GHI (W/m2)',
         data: radiationValues,
-        backgroundColor: colors
+        backgroundColor: '#ff6384'
       }],
       labels:hours
+    },
+    options: {
+      legend: {
+        display: true,
+      },
+    }
+  });
+}
+
+function create_7day_chart(dataset1){
+
+  const dates = dataset1.x;
+  const radiationValues = dataset1.y;
+
+  const now = new Date();
+  const hours = [];
+
+  new Chart("seven_day_chart", {
+    type: "bar",
+    data: {
+      datasets: [{
+        label: 'Forecast GHI (kWh/m2)',
+        data: radiationValues,
+        backgroundColor: '#36a2eb'
+      }],
+      labels:dates
     },
     options: {
       legend: {

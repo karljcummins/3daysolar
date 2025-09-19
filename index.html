@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>Solar Forecast</title>
-    <meta name="description" content="3-day solar energy forecast based on your location">
+    <meta name="description" content="Solar energy forecast based on your location">
 
     <!-- Pico.css -->
     <link
@@ -22,7 +22,7 @@
     <header class="container">
       <hgroup>
         <h1>Solar Forecast</h1>
-        <p>3-day solar energy forecast based on your location.</p>
+        <p>Ssolar energy forecast based on your location.</p>
       </hgroup>
       <nav>
         <button onclick="getLocation()">Get Forecast</button>
@@ -33,16 +33,31 @@
 
     <!-- Main -->
     <main class="container">
-      <!-- Preview -->
-      <section id="forecast">
-        <canvas id="forecast_chart" style="width:100%;max-width:700px">></canvas>
-      </section>
-      <section>
+      <article>
+        <h2>3-day forecast</h2>
+        <canvas id="three_day_chart" class="hidden"></canvas>
+        ...
+      </article>
+      <article id="seven_day_forecast">
+        <h2>7-day forecast</h2>
+        <canvas id="seven_day_chart" class="hidden">></canvas>
+        ...
+      </article>
+      <article>
         <h2>About</h1>
-        <p>
-          Weather data is from Open-Meteo.
+          <p>Build using</p>
+        <ul>
+          <li>
+            the <a href='https://picocss.com/'>Pico</a> CSS framework
+          </li>
+          <li>
+            weather data is from <a href='https://open-meteo.com/'>Open-Meteo</a>
+          </li>
+          <li>
+            <a href='https://pages.gitbub.com'>GitHub pages</a>
+          </li>
         </p>
-      </section>
+      </article>
     </main>
 
     <script src="location.js"></script>
