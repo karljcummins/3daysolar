@@ -15,49 +15,55 @@
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        getLocation();
+      });
+    </script>
   </head>
 
   <body>
     <!-- Header -->
     <header class="container">
       <hgroup>
-        <h1>Solar Forecast</h1>
+        <h1>Solar Forecast &#127780;</h1>
         <p>Solar energy forecast based on your location.</p>
       </hgroup>
-      <nav>
-        <button onclick="getLocation()">Get Forecast</button>
-      </nav>
 
     </header>
     <!-- ./ Header -->
 
     <!-- Main -->
     <main class="container">
-      <article>
+      <section>
         <h2>3-day forecast</h2>
-        <canvas id="three_day_chart" class="hidden"></canvas>
-        ...
-      </article>
-      <article id="seven_day_forecast">
+        <article id="three_day_article">
+          <small aria-busy="true">Waiting for location data...</small>
+        </article>
+      </section>
+      <section>
         <h2>7-day forecast</h2>
-        <canvas id="seven_day_chart" class="hidden">></canvas>
-        ...
-      </article>
-      <article>
-        <h2>About</h1>
-          <p>Build using</p>
-        <ul>
-          <li>
-            the <a href='https://picocss.com/'>Pico</a> CSS framework
-          </li>
-          <li>
-            weather data is from <a href='https://open-meteo.com/'>Open-Meteo</a>
-          </li>
-          <li>
-            <a href='https://pages.gitbub.com'>GitHub pages</a>
-          </li>
-        </p>
-      </article>
+        <article id="seven_day_article">
+          <small aria-busy="true">Waiting for location data...</small>
+        </article>
+      </section>
+      <section>
+        <h2>About</h2>
+        <article>
+            <p>Built using</p>
+          <ul>
+            <li>
+              the <a href='https://picocss.com/'>Pico</a> CSS framework
+            </li>
+            <li>
+              weather data from <a href='https://open-meteo.com/'>Open-Meteo</a>
+            </li>
+            <li>
+              <a href='https://pages.gitbub.com'>GitHub pages</a> for hosting
+            </li>
+          </ul>
+        </article>
+      </section>
     </main>
 
     <script src="location.js"></script>

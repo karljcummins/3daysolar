@@ -15,26 +15,44 @@ function showError(error) {
   switch(error.code) {
     case error.PERMISSION_DENIED:
       message = "User denied the request for Geolocation.";
+      html_message = "<small>Your location is required so that accurate forecast data can be provided. \
+        Refresh the page if you want to allow this website to access your location.</small>";
       break;
     case error.POSITION_UNAVAILABLE:
       message = "Location information is unavailable.";
+      html_message = "<small>Your location is unavailable. \
+        Refresh the page if you want to allow this website to access your location.</small>";
       break;
     case error.TIMEOUT:
       message = "The request to get user location timed out.";
+      html_message = "<small>Your location is unavailable. \
+        Refresh the page if you want to allow this website to access your location.</small>";
       break;
     case error.UNKNOWN_ERROR:
       message = "An unknown error occurred.";
+      html_message = "<small>Somethign went wrong!  Your location is unavailable. \
+        Refresh the page if you want to allow this website to access your location.</small>";
       break;
   }
-  document.getElementById("location-output").innerHTML = message;
+  document.getElementById("three_day_article").ariaBusy = "false";
+  document.getElementById("seven_day_article").ariaBusy = "false";
+  document.getElementById("three_day_article").innerHTML = html_message;
+  document.getElementById("seven_day_article").innerHTML = html_message;
 }
 
 async function displayForecast(position){
   const threeDayData = await get3DayData(position);
   const sevenDayData = await get7DayData(position);
 
+  document.getElementById("three_day_article").innerHTML = "<canvas id=\"three_day_chart\"></canvas>";
+  document.getElementById("seven_day_article").innerHTML = "<canvas id=\"seven_day_chart\"></canvas>";
+
+
   create_3day_chart(threeDayData);
+  document.getElementById("three_day_article").ariaBusy = "false";
+
   create_7day_chart(sevenDayData);
+  document.getElementById("seven_day_article").ariaBusy = "false";
 
 }
 
@@ -117,6 +135,14 @@ function create_3day_chart(dataset1){
       legend: {
         display: true,
       },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 1200,
+          }
+        }]
+      },
     }
   });
 }
@@ -142,6 +168,14 @@ function create_7day_chart(dataset1){
     options: {
       legend: {
         display: true,
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 10,
+          }
+        }]
       },
     }
   });
