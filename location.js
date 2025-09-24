@@ -156,7 +156,7 @@ function create_3day_chart(dataset1){
       datasets: [{
         label: 'Forecast GHI (W/m2)',
         data: radiationValues,
-        backgroundColor: '#ff6384'
+        backgroundColor: '#524ED2'
       }],
       labels:hours
     },
@@ -224,7 +224,7 @@ function create_7day_relative_chart(denom,dataset1){
       datasets: [{
         label: '% relative to yesterday',
         data: relativeValues,
-        backgroundColor: '#26c2cb'
+        backgroundColor: '#D92662'
       }],
       labels:dates
     },
